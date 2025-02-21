@@ -1,40 +1,23 @@
-const body = document.body
-const slides = document.querySelectorAll('.slide')
-const leftBtn = document.getElementById('left')
-const rightBtn = document.getElementById('right')
+const buttons = document.querySelectorAll('.ripple')
 
-let activeSlide = 0
+buttons.forEach(button => {
+    button.addEventListener('click', function (e) {
+        const x = e.pageX
+        const y = e.pageY
 
-rightBtn.addEventListener('click', () => {
-  activeSlide++
+        const buttonTop = e.target.offsetTop
+        const buttonLeft = e.target.offsetLeft
 
-  if (activeSlide > slides.length - 1) {
-    activeSlide = 0
-  }
+        const xInside = x - buttonLeft
+        const yInside = y - buttonTop
 
-  setBgToBody()
-  setActiveSlide()
+        const circle = document.createElement('span')
+        circle.classList.add('circle')
+        circle.style.top = yInside + 'px'
+        circle.style.left = xInside + 'px'
+
+        this.appendChild(circle)
+
+        setTimeout(() => circle.remove(), 500)
+    })
 })
-
-leftBtn.addEventListener('click', () => {
-  activeSlide--
-
-  if (activeSlide < 0) {
-    activeSlide = slides.length - 1
-  }
-
-  setBgToBody()
-  setActiveSlide()
-})
-
-setBgToBody()
-
-function setBgToBody() {
-  body.style.backgroundImage = slides[activeSlide].style.backgroundImage
-}
-
-function setActiveSlide() {
-  slides.forEach((slide) => slide.classList.remove('active'))
-
-  slides[activeSlide].classList.add('active')
-}
