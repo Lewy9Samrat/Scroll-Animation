@@ -1,23 +1,19 @@
-const buttons = document.querySelectorAll('.ripple')
+const boxes = document.querySelectorAll('.box')
 
-buttons.forEach(button => {
-    button.addEventListener('click', function (e) {
-        const x = e.pageX
-        const y = e.pageY
+window.addEventListener('scroll', checkBoxes)
 
-        const buttonTop = e.target.offsetTop
-        const buttonLeft = e.target.offsetLeft
+checkBoxes()
 
-        const xInside = x - buttonLeft
-        const yInside = y - buttonTop
+function checkBoxes() {
+    const triggerBottom = window.innerHeight / 5 * 4
 
-        const circle = document.createElement('span')
-        circle.classList.add('circle')
-        circle.style.top = yInside + 'px'
-        circle.style.left = xInside + 'px'
+    boxes.forEach(box => {
+        const boxTop = box.getBoundingClientRect().top
 
-        this.appendChild(circle)
-
-        setTimeout(() => circle.remove(), 500)
+        if(boxTop < triggerBottom) {
+            box.classList.add('show')
+        } else {
+            box.classList.remove('show')
+        }
     })
-})
+}
